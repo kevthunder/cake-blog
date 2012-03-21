@@ -2,6 +2,7 @@
 class BlogPostsController extends BlogAppController {
 
 	var $name = 'BlogPosts';
+	var $components = array('BlogFunctions');
 
 	function beforeFilter() {
 		parent::beforeFilter();
@@ -96,6 +97,9 @@ class BlogPostsController extends BlogAppController {
 		$this->set('blogPosts', $this->paginate());
 		
 		$this->_boxes();
+		
+		$listCategories = $this->BlogFunctions->findListCount(array('hideEmpty'=>true));
+		$this->set(compact('listCategories'));
 	}
 
 	
@@ -139,8 +143,8 @@ class BlogPostsController extends BlogAppController {
 						'fields'=>array('id','title'),
 						'order'=>array('created'=>'desc')
 					)
-				),
-				'Store'
+				)/*,
+				'Store'*/
 			));
 		$blogPost = $this->BlogPost->read(null, $id);
 		$this->set('blogPost', $blogPost);
@@ -177,10 +181,7 @@ class BlogPostsController extends BlogAppController {
 				$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'blog post'));
 			}
 		}
-		/* Specific */
-		$stores = $this->BlogPost->Store->find('list');
-		$this->set(compact('stores'));
-		/* End Specific */
+		
 	}
 
 	function edit($id = null) {
@@ -207,10 +208,7 @@ class BlogPostsController extends BlogAppController {
 		if (empty($this->data)) {
 			$this->data = $this->BlogPost->read(null, $id);
 		}
-		/* Specific */
-		$stores = $this->BlogPost->Store->find('list',array('fields'=>array('title_fre')));
-		$this->set(compact('stores'));
-		/* End Specific */
+		
 	}
 	
 	function admin_index() {
@@ -266,11 +264,10 @@ class BlogPostsController extends BlogAppController {
 			}
 			$this->set('users', $users);
 		}
-		/* Specific */
-		//$stores = $this->BlogPost->Store->find('list');
-		$stores = $this->BlogPost->Store->find('list',array('order'=>'title_fre ASC', 'fields'=>array('title_fre')));
-		$this->set(compact('stores'));
-		/* End Specific */
+		$this->BlogPost->BlogCategory->displayField = 'title_fre';
+		$blogCategories = $this->BlogPost->BlogCategory->find('list');
+		$this->set(compact('blogCategories'));
+		
 	}
 
 	function admin_edit($id = null) {
@@ -311,11 +308,10 @@ class BlogPostsController extends BlogAppController {
 			}
 			$this->set('users', $users);
 		}
+		$this->BlogPost->BlogCategory->displayField = 'title_fre';
+		$blogCategories = $this->BlogPost->BlogCategory->find('list');
+		$this->set(compact('blogCategories'));
 		
-		/* Specific */
-		$stores = $this->BlogPost->Store->find('list',array('order'=>'title_fre ASC','fields'=>array('title_fre')));
-		$this->set(compact('stores'));
-		/* End Specific */
 	}
 	
 	function admin_delete($id = null) {

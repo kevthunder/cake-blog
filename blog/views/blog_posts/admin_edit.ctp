@@ -12,7 +12,7 @@
 
 				?>
 					<fieldset class="francais">
-						<legend><?php __('Français'); ?></legend>
+						<legend><?php __('FranÃ§ais'); ?></legend>
 						<?php
 							echo $this->Form->input('title_fre');
 							echo $this->Form->input('short_text_fre', array('class'=>'tinymce'));
@@ -31,6 +31,9 @@
 						?>
 					</fieldset>
 				<?php
+				
+				echo $this->Form->input('BlogCategory', array('multiple'=>'checkbox', 'div'=>array('class'=>'multiple_checkbox')));
+				$this->Multimedia->sidebar();
 			?>
 		</fieldset>
 	<?php echo $this->Form->end(__('Submit', true));?>

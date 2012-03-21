@@ -1,7 +1,7 @@
 <?php
 class BlogPost extends BlogAppModel {
 	var $name = 'BlogPost';
-	var $actsAs = array('Locale','Search.Searchable');
+	var $actsAs = array('Locale' ,'Search.Searchable');
 	var $allow_blogger_edit = true;
 	
 	var $multimedia = array(
@@ -24,11 +24,11 @@ class BlogPost extends BlogAppModel {
 	
 	
 	var $hasAndBelongsToMany = array(
-		'Store' => array(
-			'className' => 'Store',
-			'joinTable' => 'blog_posts_stores',
+		'BlogCategory' => array(
+			'className' => 'Blog.BlogCategory',
+			'joinTable' => 'blog_categories_blog_posts',
 			'foreignKey' => 'blog_post_id',
-			'associationForeignKey' => 'store_id',
+			'associationForeignKey' => 'blog_category_id',
 			'unique' => true,
 			'conditions' => '',
 			'fields' => '',
