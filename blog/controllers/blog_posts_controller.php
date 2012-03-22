@@ -18,6 +18,16 @@ class BlogPostsController extends BlogAppController {
 		}
 		//$this->allow_blogger_edit = true;
 		$this->set('allow_blogger_edit',$this->allow_blogger_edit);
+		
+		if(!isset($this->params['admin']) || $this->params['admin'] == false) {
+			//List of categories of blog
+			$listCategories = $this->BlogFunctions->findListCount(array('hideEmpty'=>true));
+			$this->set(compact('listCategories'));
+			
+			//List of Archives
+			$listArchives = $this->BlogFunctions->findArchivesCount(null, $this->lang);
+			$this->set(compact('listArchives'));
+		}
 	}
 	
 	function _boxes(){
@@ -38,9 +48,12 @@ class BlogPostsController extends BlogAppController {
 		$this->set('bloggers', $bloggers);
 	}
 	
-	function index($blogger = null) {
+	function index($blogger = null, $blog_category_id = null) {
 		if(!$blogger && isset($this->params['named']['blogger']) && is_numeric($this->params['named']['blogger'])) {
 			$blogger = $this->params['named']['blogger'];
+		}
+		if(!$blog_category_id && isset($this->params['named']['blog_category_id']) && is_numeric($this->params['named']['blog_category_id'])) {
+			$blog_category_id = $this->params['named']['blog_category_id'];
 		}
 		
 		$q = null;
@@ -92,14 +105,32 @@ class BlogPostsController extends BlogAppController {
 			$this->paginate['conditions']['user_id']=$user_id;
 		}
 		
+		if(is_numeric($blog_category_id)){
+			$this->BlogPost->BlogCategory->recursive = -1;
+			$blogCategory = $this->BlogPost->BlogCategory->read(null, $blog_category_id);
+			$this->set('blog_category_id', $blog_category_id);
+			$this->set('blogCategory', $blogCategory);
+			$this->BlogPost->bindModel(array(
+				'hasOne' => array(
+					'BlogCategoriesBlogPost' => array(
+						'foreignKey'=>'blog_post_id'
+					),
+					'FirstCategory'=>array(
+						'className' => 'BlogCategory',
+						'foreignKey'=>false,
+						'conditions'=>array('BlogCategoriesBlogPost.blog_category_id = FirstCategory.id')
+					)
+				)
+			), false);
+			$this->paginate['conditions']['blog_category_id'] = $blog_category_id;
+		}
+		
 		$this->paginate['order'] = array('BlogPost.created'=>'desc');
-		$this->BlogPost->recursive = 0;
+		$this->paginate['limit'] = 10;
+		$this->BlogPost->recursive = 1;
 		$this->set('blogPosts', $this->paginate());
 		
 		$this->_boxes();
-		
-		$listCategories = $this->BlogFunctions->findListCount(array('hideEmpty'=>true));
-		$this->set(compact('listCategories'));
 	}
 
 	
@@ -135,6 +166,11 @@ class BlogPostsController extends BlogAppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		$this->BlogPost->Behaviors->attach('Containable');
+		$this->BlogPost->User->bindModel(array(
+			'hasMany' => array(
+				'BlogPost' => array()
+			)
+		));
 		$this->BlogPost->contain(array(
 				'User'=>array(
 					'BlogPost'=>array(
@@ -143,9 +179,10 @@ class BlogPostsController extends BlogAppController {
 						'fields'=>array('id','title'),
 						'order'=>array('created'=>'desc')
 					)
-				)/*,
-				'Store'*/
+				),
+				'BlogCategory'
 			));
+		$this->BlogPost->recursive = 1;
 		$blogPost = $this->BlogPost->read(null, $id);
 		$this->set('blogPost', $blogPost);
 		

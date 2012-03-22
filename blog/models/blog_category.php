@@ -22,5 +22,13 @@ class BlogCategory extends AppModel {
 		)
 	);
 	
+	
+	function afterSave(&$model, $created = false) {
+		//////// Clear cache ////////
+		if(Configure::read('admin') == true) {
+			Cache::delete('BlogCategoryList');
+		}
+	}
+	
 }
 ?>

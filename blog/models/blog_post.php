@@ -7,7 +7,7 @@ class BlogPost extends BlogAppModel {
 	var $multimedia = array(
 		'multimedia' => array(
 			'types' => array('photo'),
-			'fields' => array('desc')
+			'fields' => array('desc', 'format'=>array('640x400'=>'640x400', '640x190'=>'640x190'))
 		)
 	);
 	
@@ -42,6 +42,13 @@ class BlogPost extends BlogAppModel {
 	);
 	
 
+	
+	function afterSave(&$model, $created = false) {
+		//////// Clear cache ////////
+		if(Configure::read('admin') == true) {
+			Cache::delete('BlogCategoryList');
+		}
+	}
 	
 }
 ?>
