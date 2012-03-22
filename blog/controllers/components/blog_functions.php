@@ -3,17 +3,22 @@ class BlogFunctionsComponent extends Object {
 
 	//Get cateogries With count articles
 	function findListCount($options = array()){
-		$cache = Cache::read('BlogCategoryList');
+		/*$cache = Cache::read('BlogCategoryList');
 		$cacheKey = 'BlogCategoryList-'.Configure::read('Config.language');
 		if(!empty($cache[$cacheKey])){
 			return $cache[$cacheKey];
-		}
+		}*/
 		
 		$options['hideEmpty'] = (!isset($options['hideEmpty'])) ? false : $options['hideEmpty'];
+		$options['allCategoriesLink'] = (!isset($options['allCategoriesLink'])) ? true : $options['allCategoriesLink'];
 		
 		$this->BlogCategory = ClassRegistry::init('BlogCategory');
 		$this->BlogCategory->recursive = 1;
 		$categoryList = array();
+		if($options['allCategoriesLink'] == true){
+			$chTotal = $this->BlogCategory->BlogPost->find('count');
+			$categoryList[0] = __('Toutes les catégories', true).' <span>('.$chTotal.')</span>';
+		}
 		$categories = $this->BlogCategory->find('all');
 		if(!empty($categories)){
 			foreach($categories as $k=>$cat):
@@ -25,8 +30,8 @@ class BlogFunctionsComponent extends Object {
 		}
 		//pr($categories);
 		
-		$cache[$cacheKey] = $categoryList;
-		Cache::write('BlogCategoryList', $cache);
+		/*$cache[$cacheKey] = $categoryList;
+		Cache::write('BlogCategoryList', $cache);*/
 		
 		return $categoryList;
 	}

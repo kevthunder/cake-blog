@@ -55,6 +55,7 @@ class BlogPostsController extends BlogAppController {
 		if(!$blog_category_id && isset($this->params['named']['blog_category_id']) && is_numeric($this->params['named']['blog_category_id'])) {
 			$blog_category_id = $this->params['named']['blog_category_id'];
 		}
+		if($blog_category_id == 0){ $blog_category_id = null; } //Options for All Categories link
 		
 		$q = null;
 		if(isset($this->params['named']['q']) && strlen(trim($this->params['named']['q'])) > 0) {
