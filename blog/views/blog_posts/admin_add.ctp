@@ -4,6 +4,7 @@
 			<legend><?php printf(__('Add %s', true), __('Blog Post', true)); ?></legend>
 			<?php
 				echo $this->Form->input('active', array('checked' => 'checked'));
+				echo $this->Form->input('home', array('checked' => 'checked'));
 				if($allow_blogger_edit){
 					echo $this->Form->input('user_id',array('default'=>$user['User']['id']));
 				}

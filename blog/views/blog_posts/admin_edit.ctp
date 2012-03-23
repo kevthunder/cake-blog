@@ -4,6 +4,7 @@
 			<legend><?php printf(__('Edit %s', true), __('Blog Post', true)); ?></legend>
 			<?php
 				echo $this->Form->input('active');
+				echo $this->Form->input('home');
 				echo $this->Form->input('id');
 				if($allow_blogger_edit){
 					echo $this->Form->input('user_id');
