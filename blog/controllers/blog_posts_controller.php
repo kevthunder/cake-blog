@@ -268,6 +268,7 @@ class BlogPostsController extends BlogAppController {
 		}
 
 		$this->BlogPost->recursive = 0;
+		$this->paginate['order'] = 'BlogPost.created DESC';
 		$this->set('blogPosts', $this->paginate());
 	}
 

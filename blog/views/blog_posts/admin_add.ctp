@@ -15,8 +15,9 @@
 						<legend><?php __('Français'); ?></legend>
 						<?php
 							echo $this->Form->input('title_fre');
-							echo $this->Form->input('short_text_fre', array('class'=>'tinymce'));
 							echo $this->Form->input('text_fre', array('class'=>'tinymce'));
+							echo $this->Form->input('short_text_fre', array('class'=>'tinymce'));
+							echo $this->Form->input('short_home_text_fre', array('class'=>'tinymce'));
 						?>
 					</fieldset>
 				<?php
@@ -26,8 +27,9 @@
 						<legend><?php __('English'); ?></legend>
 						<?php
 							echo $this->Form->input('title_eng');
-							echo $this->Form->input('short_text_eng', array('class'=>'tinymce'));
 							echo $this->Form->input('text_eng', array('class'=>'tinymce'));
+							echo $this->Form->input('short_text_eng', array('class'=>'tinymce'));
+							echo $this->Form->input('short_home_text_eng', array('class'=>'tinymce'));
 						?>
 					</fieldset>
 				<?php
