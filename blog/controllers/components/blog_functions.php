@@ -19,6 +19,7 @@ class BlogFunctionsComponent extends Object {
 			$chTotal = $this->BlogCategory->BlogPost->find('count');
 			$categoryList[0] = __('Toutes les catégories', true).' <span>('.$chTotal.')</span>';
 		}
+		$this->BlogCategory->hasAndBelongsToMany['BlogPost']['conditions'] = array('BlogPost.active'=>true);
 		$categories = $this->BlogCategory->find('all');
 		if(!empty($categories)){
 			foreach($categories as $k=>$cat):
