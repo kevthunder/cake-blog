@@ -5,6 +5,7 @@
 			<?php
 				echo $this->Form->input('active');
 				echo $this->Form->input('home');
+				echo $this->Form->input('hide_link_moreinfo');
 				echo $this->Form->input('id');
 				if($allow_blogger_edit){
 					echo $this->Form->input('user_id');

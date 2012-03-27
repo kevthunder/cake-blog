@@ -5,6 +5,7 @@
 			<?php
 				echo $this->Form->input('active', array('checked' => 'checked'));
 				echo $this->Form->input('home', array('checked' => 'checked'));
+				echo $this->Form->input('hide_link_moreinfo');
 				if($allow_blogger_edit){
 					echo $this->Form->input('user_id',array('default'=>$user['User']['id']));
 				}

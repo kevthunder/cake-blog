@@ -12,6 +12,7 @@
 			<th><?php echo $this->Paginator->sort('title_fre');?></th>			
 			<th><?php echo $this->Paginator->sort('title_eng');?></th>			
 			<th><?php echo $this->Paginator->sort('home');?></th>		
+			<th><?php echo $this->Paginator->sort('active');?></th>		
 			<th class="actions"><?php __('Actions');?></th>
 		</tr>
 		<?php
@@ -28,6 +29,7 @@
 						<td class="title_fre"><?php echo $blogPost['BlogPost']['title_fre']; ?>&nbsp;</td>
 						<td class="title_eng"><?php echo $blogPost['BlogPost']['title_eng']; ?>&nbsp;</td>
 						<td class="title_eng"><?php echo $bool[$blogPost['BlogPost']['home']]; ?>&nbsp;</td>
+						<td class="title_eng"><?php echo $bool[$blogPost['BlogPost']['active']]; ?>&nbsp;</td>
 						<td class="actions">
 							<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $blogPost['BlogPost']['id']), array('class' => 'edit')); ?>
 							<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $blogPost['BlogPost']['id']), array('class' => 'delete'), sprintf(__('Are you sure you want to delete # %s?', true), $blogPost['BlogPost']['id'])); ?>
