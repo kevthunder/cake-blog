@@ -48,7 +48,7 @@ class BlogPostsController extends BlogAppController {
 		$this->set('bloggers', $bloggers);
 	}
 	
-	function index($blogger = null, $blog_category_id = null) {
+	function index($blogger = null, $blog_category_id = null, $m = null, $y = null) {
 		if(!$blogger && isset($this->params['named']['blogger']) && is_numeric($this->params['named']['blogger'])) {
 			$blogger = $this->params['named']['blogger'];
 		}elseif(!$blogger && isset($this->params['blogger']) && is_numeric($this->params['blogger'])) {
