@@ -51,9 +51,13 @@ class BlogPostsController extends BlogAppController {
 	function index($blogger = null, $blog_category_id = null) {
 		if(!$blogger && isset($this->params['named']['blogger']) && is_numeric($this->params['named']['blogger'])) {
 			$blogger = $this->params['named']['blogger'];
+		}elseif(!$blogger && isset($this->params['blogger']) && is_numeric($this->params['blogger'])) {
+			$blogger = $this->params['blogger'];
 		}
 		if(!$blog_category_id && isset($this->params['named']['blog_category_id']) && is_numeric($this->params['named']['blog_category_id'])) {
 			$blog_category_id = $this->params['named']['blog_category_id'];
+		}elseif(!$blog_category_id && isset($this->params['blog_category_id']) && is_numeric($this->params['blog_category_id'])) {
+			$blog_category_id = $this->params['blog_category_id'];
 		}
 		if($blog_category_id == 0){ $blog_category_id = null; } //Options for All Categories link
 		
@@ -72,12 +76,16 @@ class BlogPostsController extends BlogAppController {
 		}
 		
 		$month = null;
-		if(!empty($this->params['named']['m'])){
+		if(isset($this->params['named']['m']) && !empty($this->params['named']['m'])){
 			$month = $this->params['named']['m'];
+		}elseif(isset($this->params['m']) && !empty($this->params['m'])){
+			$month = $this->params['m'];
 		}
 		$year = null;
-		if(!empty($this->params['named']['y'])){
+		if(isset($this->params['named']['y']) && !empty($this->params['named']['y'])){
 			$year = $this->params['named']['y'];
+		}elseif(isset($this->params['y']) && !empty($this->params['y'])){
+			$year = $this->params['y'];
 		}
 		if($month){
 			if($year == null){
@@ -161,6 +169,8 @@ class BlogPostsController extends BlogAppController {
 	function view($id = null) {
 		if(!$id && isset($this->params['named']['id']) && is_numeric($this->params['named']['id'])) {
 			$id = $this->params['named']['id'];
+		}elseif(!$id && isset($this->params['id']) && is_numeric($this->params['id'])) {
+			$id = $this->params['id'];
 		}
 		if (!$id) {
 			$this->Session->setFlash(sprintf(__('Invalid %s', true), 'blog post'));
