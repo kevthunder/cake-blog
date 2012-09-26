@@ -4,40 +4,37 @@
 		echo $this->Form->input('q', array('class' => 'keyword', 'label' => false, 'after' => $form->submit(__('Search', true), array('div' => false))));
 		echo $this->Form->end();
 	?>	
-	<h2><?php __('Blog Posts');?></h2>
+	<h1><?php __('Blog Posts');?></h1>
 	
-	<table cellpadding="0" cellspacing="0">
-		<tr>
-			<th><?php echo $this->Paginator->sort('id');?></th>			
-			<th><?php echo $this->Paginator->sort('title');?></th>			
-			<th><?php echo $this->Paginator->sort('short_text');?></th>			
-			<th><?php echo $this->Paginator->sort('text');?></th>			
-			<th><?php echo $this->Paginator->sort('multimedia');?></th>			
-			<th class="actions"><?php __('Actions');?></th>
-		</tr>
+	<div class="posts">
+	
 		<?php
 			$i = 0;
 			$bool = array(__('No', true), __('Yes', true), null => __('No', true));
 			foreach ($blogPosts as $blogPost) {
 				$class = null;
 				if ($i++ % 2 == 0) {
-					$class = ' class="altrow"';
+					$class = ' altrow';
 				}
 				?>
-					<tr<?php echo $class;?>>
-						<td class="id"><?php echo $blogPost['BlogPost']['id']; ?>&nbsp;</td>
-						<td class="title"><?php echo $blogPost['BlogPost']['title']; ?>&nbsp;</td>
-						<td class="short_text"><?php echo $blogPost['BlogPost']['short_text']; ?>&nbsp;</td>
-						<td class="text"><?php echo $blogPost['BlogPost']['text']; ?>&nbsp;</td>
-						<td class="multimedia"><?php echo $text->truncate($blogPost['BlogPost']['multimedia'], 150, array('exact' => false)); ?>&nbsp;</td>
-						<td class="actions">
-							<?php echo $this->Html->link(__('View', true), array('action' => 'view', $blogPost['BlogPost']['id']), array('class' => 'view')); ?>
-						</td>
-					</tr>
+				<div class="post<?php echo $class ?>">
+					<?php
+						echo $this->Multimedia->img($blogPost['BlogPost']['multimedia'], array(
+							'size' => '150x150',
+							'method' => 'crop',
+						));
+					?>
+					<div class="post_info">
+						<span class="date"><?php echo date_('j F Y',strtotime($blogPost['BlogPost']['created'])) ?></span><br />
+						<h2><a href="#"><?php echo $blogPost['BlogPost']['title'] ?></a></h2>
+						<?php echo $blogPost['BlogPost']['short_text'] ?>
+						<a class="readmore" href="<?php echo $this->Html->url(array('action'=>'view',$blogPost['BlogPost']['id'])); ?>">Lire la suite +</a>
+					</div>
+				</div>
 				<?php
 			}
 		?>
-	</table>
+	</div>
 	
 	<p class="paging">
 		<?php

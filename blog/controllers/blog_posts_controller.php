@@ -2,7 +2,7 @@
 class BlogPostsController extends BlogAppController {
 
 	var $name = 'BlogPosts';
-	var $components = array('BlogFunctions');
+	var $components = array('Blog.BlogFunctions');
 
 	function beforeFilter() {
 		parent::beforeFilter();

@@ -12,7 +12,7 @@ class BlogFunctionsComponent extends Object {
 		$options['hideEmpty'] = (!isset($options['hideEmpty'])) ? false : $options['hideEmpty'];
 		$options['allCategoriesLink'] = (!isset($options['allCategoriesLink'])) ? true : $options['allCategoriesLink'];
 		
-		$this->BlogCategory = ClassRegistry::init('BlogCategory');
+		$this->BlogCategory = ClassRegistry::init('Blog.BlogCategory');
 		$this->BlogCategory->recursive = 1;
 		$categoryList = array();
 		if($options['allCategoriesLink'] == true){

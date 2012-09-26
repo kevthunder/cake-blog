@@ -1,7 +1,7 @@
 <?php
 class BlogPost extends BlogAppModel {
 	var $name = 'BlogPost';
-	var $actsAs = array('Locale' ,'Search.Searchable');
+	var $actsAs = array('Locale');
 	var $allow_blogger_edit = true;
 	
 	var $multimedia = array(
@@ -41,7 +41,12 @@ class BlogPost extends BlogAppModel {
 		)
 	);
 	
-
+	function __construct( $id = false, $table = NULL, $ds = NULL ){
+		if(in_array('Search',App::objects('plugin'))){
+			$this->actsAs[] = 'Search.Searchable';
+		}
+		parent::__construct( $id, $table, $ds );
+	}
 	
 	function afterSave(&$model, $created = false) {
 		//////// Clear cache ////////

@@ -1,7 +1,7 @@
 <?php
 class BlogCategory extends AppModel {
 	var $name = 'BlogCategory';
-	var $actsAs = array('Locale', 'Order');
+	var $actsAs = array('Locale'/*, 'Order'*/);
 	
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 	var $hasAndBelongsToMany = array(
