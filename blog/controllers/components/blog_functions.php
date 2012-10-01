@@ -8,24 +8,61 @@ class BlogFunctionsComponent extends Object {
 		if(!empty($cache[$cacheKey])){
 			return $cache[$cacheKey];
 		}*/
-		
-		$options['hideEmpty'] = (!isset($options['hideEmpty'])) ? false : $options['hideEmpty'];
-		$options['allCategoriesLink'] = (!isset($options['allCategoriesLink'])) ? true : $options['allCategoriesLink'];
+		App::import('Lib', 'Blog.BlogConfig');
+		$defOpt = BlogConfig::load('categoryList');
+		$opt = Set::merge($defOpt,$options);
 		
 		$this->BlogCategory = ClassRegistry::init('Blog.BlogCategory');
 		$this->BlogCategory->recursive = 1;
 		$categoryList = array();
-		if($options['allCategoriesLink'] == true){
+		if($opt['allCategoriesLink']){
 			$chTotal = $this->BlogCategory->BlogPost->find('count');
-			$categoryList[0] = __('Toutes les catégories', true).' <span>('.$chTotal.')</span>';
+			$categoryList[0] = array(
+				'title' => __($opt['allCategoriesLink']['label'], true),
+				'count' => $chTotal,
+			);
 		}
-		$this->BlogCategory->hasAndBelongsToMany['BlogPost']['conditions'] = array('BlogPost.active'=>true);
-		$categories = $this->BlogCategory->find('all');
+		$joinModel = $this->BlogCategory->BlogCategoriesBlogPost;
+		$findOpt = array(
+			'fields'=>array(
+				$this->BlogCategory->alias.'.*',
+				'COUNT('.$this->BlogCategory->BlogPost->alias.'.'.$this->BlogCategory->BlogPost->primaryKey.') as `count`',
+			),
+			'conditions'=>array(
+				$this->BlogCategory->BlogPost->alias.'.active'=>true
+			),
+			'group'=>array(
+				$this->BlogCategory->alias.'.'.$this->BlogCategory->primaryKey,
+			),
+			'joins' => array(
+				array(
+					'alias' => $joinModel->alias,
+					'table'=> $joinModel->table,
+					'type' => 'INNER',
+					'conditions' => array(
+						$joinModel->alias.'.blog_category_id = '.$this->BlogCategory->alias.'.'.$this->BlogCategory->primaryKey,
+					)
+				),
+				array(
+					'alias' => $this->BlogCategory->BlogPost->alias,
+					'table'=> $this->BlogCategory->BlogPost->table,
+					'type' => 'INNER',
+					'conditions' => array(
+						$joinModel->alias.'.blog_post_id = '.$this->BlogCategory->BlogPost->alias.'.'.$this->BlogCategory->BlogPost->primaryKey,
+					)
+				)
+			),
+			'recursive' => -1,
+		);
+		$categories = $this->BlogCategory->find('all',$findOpt);
 		if(!empty($categories)){
 			foreach($categories as $k=>$cat):
-				$cb = count($cat['BlogPost']);
-				if($cb > 0 || $options['hideEmpty'] != true){
-					$categoryList[$cat['BlogCategory']['id']] = $cat['BlogCategory']['title'].' <span>('.$cb.')</span>';
+				$cb = $cat[0]['count'];
+				if($cb > 0 || $opt['hideEmpty'] != true){
+					$categoryList[$cat['BlogCategory']['id']] = array(
+						'title' => $cat['BlogCategory']['title'],
+						'count' => $cb,
+					);
 				}
 			endforeach;
 		}

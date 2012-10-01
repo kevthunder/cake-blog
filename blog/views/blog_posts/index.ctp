@@ -26,9 +26,9 @@
 					?>
 					<div class="post_info">
 						<span class="date"><?php echo date_('j F Y',strtotime($blogPost['BlogPost']['created'])) ?></span><br />
-						<h2><a href="#"><?php echo $blogPost['BlogPost']['title'] ?></a></h2>
+						<h2><a href="<?php echo $this->Html->url(array('action'=>'view',$blogPost['BlogPost']['id'])); ?>"><?php echo $blogPost['BlogPost']['title'] ?></a></h2>
 						<?php echo $blogPost['BlogPost']['short_text'] ?>
-						<a class="readmore" href="<?php echo $this->Html->url(array('action'=>'view',$blogPost['BlogPost']['id'])); ?>">Lire la suite +</a>
+						<a class="readmore" href="<?php echo $this->Html->url(array('action'=>'view',$blogPost['BlogPost']['id'])); ?>"><?php __('Lire la suite'); ?></a>
 					</div>
 				</div>
 				<?php

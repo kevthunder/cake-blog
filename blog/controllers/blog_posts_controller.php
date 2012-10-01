@@ -4,6 +4,13 @@ class BlogPostsController extends BlogAppController {
 	var $name = 'BlogPosts';
 	var $components = array('Blog.BlogFunctions');
 
+	function __construct(){
+		if(in_array('Comment',App::objects('plugin'))){
+			$this->components[] = 'Comment.Commenting';
+		}
+		parent::__construct();
+	}
+	
 	function beforeFilter() {
 		parent::beforeFilter();
 		$this->checked_blogger = false;
@@ -21,7 +28,7 @@ class BlogPostsController extends BlogAppController {
 		
 		if(!isset($this->params['admin']) || $this->params['admin'] == false) {
 			//List of categories of blog
-			$listCategories = $this->BlogFunctions->findListCount(array('hideEmpty'=>true));
+			$listCategories = $this->BlogFunctions->findListCount();
 			$this->set(compact('listCategories'));
 			
 			//List of Archives
