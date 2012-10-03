@@ -2,6 +2,7 @@
 class BlogPost extends BlogAppModel {
 	var $name = 'BlogPost';
 	var $actsAs = array('Locale');
+	var $displayField = 'title';
 	var $allow_blogger_edit = true;
 	
 	var $multimedia = array(

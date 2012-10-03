@@ -12,7 +12,8 @@ class BlogConfig extends Object {
 			'allCategoriesLink' => array(
 				'label' => 'Toutes les catégories',
 			)
-		)
+		),
+		'useBlogger' => false,
 	);
 	var $trueToDefault = array(
 		'categoryList.allCategoriesLink',
