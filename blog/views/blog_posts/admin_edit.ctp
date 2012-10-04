@@ -4,8 +4,8 @@
 			<legend><?php printf(__('Edit %s', true), __('Blog Post', true)); ?></legend>
 			<?php
 				echo $this->Form->input('active');
-				echo $this->Form->input('home');
-				echo $this->Form->input('hide_link_moreinfo');
+				//echo $this->Form->input('home');
+				//echo $this->Form->input('hide_link_moreinfo');
 				echo $this->Form->input('id');
 				if($allow_blogger_edit){
 					echo $this->Form->input('user_id');
@@ -19,7 +19,7 @@
 							echo $this->Form->input('title_fre');
 							echo $this->Form->input('text_fre', array('class'=>'tinymce'));
 							echo $this->Form->input('short_text_fre', array('class'=>'tinymce'));
-							echo $this->Form->input('short_home_text_fre', array('class'=>'tinymce'));
+							//echo $this->Form->input('short_home_text_fre', array('class'=>'tinymce'));
 						?>
 					</fieldset>
 				<?php
@@ -31,7 +31,7 @@
 							echo $this->Form->input('title_eng');
 							echo $this->Form->input('text_eng', array('class'=>'tinymce'));
 							echo $this->Form->input('short_text_eng', array('class'=>'tinymce'));
-							echo $this->Form->input('short_home_text_eng', array('class'=>'tinymce'));
+							//echo $this->Form->input('short_home_text_eng', array('class'=>'tinymce'));
 						?>
 					</fieldset>
 				<?php
