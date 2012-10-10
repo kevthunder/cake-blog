@@ -1,0 +1,35 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2011-08-08 11:28-0500\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+
+
+msgid "Posts"
+msgstr "Articles"
+
+
+msgid "Blog Posts"
+msgstr "Articles du blog"
+
+msgid "Comments"
+msgstr "Commentaires"
+
+msgid "Edit Blog Post"
+msgstr "Modifier l'article"
+
+msgid "Add Blog Post"
+msgstr "Ajouter un article"
+
+msgid "Blog Categories / Tags"
+msgstr "Catégories / Tags du blog"
+
+msgid "Categories / Tags"
+msgstr "Catégories / Tags"

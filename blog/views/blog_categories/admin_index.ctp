@@ -4,7 +4,7 @@
 		echo $this->Form->input('q', array('class' => 'keyword', 'label' => false, 'after' => $form->submit(__('Search', true), array('div' => false))));
 		echo $this->Form->end();
 	?>	
-	<h2><?php __('Blog Categories');?></h2>
+	<h2><?php __d('blog', 'Blog Categories / Tags');?></h2>
 	
 	<table cellpadding="0" cellspacing="0">
 		<tr>

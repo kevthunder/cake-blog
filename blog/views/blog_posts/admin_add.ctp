@@ -1,7 +1,7 @@
 <div class="blogPosts form">
 	<?php echo $this->Form->create('BlogPost');?>
 		<fieldset>
-			<legend><?php printf(__('Add %s', true), __('Blog Post', true)); ?></legend>
+			<legend><?php __d('blog','Add Blog Post'); ?></legend>
 			<?php
 				echo $this->Form->input('active', array('checked' => 'checked'));
 				//echo $this->Form->input('home', array('checked' => 'checked'));

@@ -1,7 +1,7 @@
 <div class="blogPosts form">
 	<?php echo $this->Form->create('BlogPost');?>
 		<fieldset>
-			<legend><?php printf(__('Edit %s', true), __('Blog Post', true)); ?></legend>
+			<legend><?php __d('blog','Edit Blog Post'); ?></legend>
 			<?php
 				echo $this->Form->input('active');
 				//echo $this->Form->input('home');

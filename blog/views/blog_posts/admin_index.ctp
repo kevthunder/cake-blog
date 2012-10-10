@@ -4,7 +4,7 @@
 		echo $this->Form->input('q', array('class' => 'keyword', 'label' => false, 'after' => $form->submit(__('Search', true), array('div' => false))));
 		echo $this->Form->end();
 	?>	
-	<h2><?php __('Blog Posts');?></h2>
+	<h2><?php __d('blog','Blog Posts');?></h2>
 	
 	<table cellpadding="0" cellspacing="0">
 		<tr>
@@ -35,7 +35,7 @@
 							<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $blogPost['BlogPost']['id']), array('class' => 'edit')); ?>
 							<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $blogPost['BlogPost']['id']), array('class' => 'delete'), sprintf(__('Are you sure you want to delete # %s?', true), $blogPost['BlogPost']['id'])); ?>
 							<?php if(in_array('Comment',App::objects('plugin'))){ ?>
-							<?php echo $html->link(__('Comments', true).' ('.$blogPost[0]['nb_comment'].')', array('plugin' => 'comment', 'controller' => 'comments', 'action' => 'index', 'model'=>'BlogPost','foreign_key'=>$blogPost['BlogPost']['id'])); ?>
+							<?php echo $html->link(__d('blog','Comments', true).' ('.$blogPost[0]['nb_comment'].')', array('plugin' => 'comment', 'controller' => 'comments', 'action' => 'index', 'model'=>'BlogPost','foreign_key'=>$blogPost['BlogPost']['id'])); ?>
 							<?php }?>
 						</td>
 					</tr>
