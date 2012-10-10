@@ -8,7 +8,7 @@ class BlogPost extends BlogAppModel {
 	var $multimedia = array(
 		'multimedia' => array(
 			'types' => array('photo'),
-			'fields' => array('desc', 'format'=>array('640x400'=>'640x400', '640x190'=>'640x190'))
+			'fields' => array('desc', 'format'=>array()) //uses config : Blog.cropFormats
 		)
 	);
 	
@@ -42,11 +42,25 @@ class BlogPost extends BlogAppModel {
 		)
 	);
 	
+	
+	
 	function __construct( $id = false, $table = NULL, $ds = NULL ){
 		if(in_array('Search',App::objects('plugin'))){
 			$this->actsAs[] = 'Search.Searchable';
 		}
+		if(in_array('Comment',App::objects('plugin'))){
+			$this->actsAs[] = 'Comment.Commented';
+		}
+		App::import('Lib', 'Blog.BlogConfig');
+		$multimedia['multimedia']['fields']['format'] = BlogConfig::load('cropFormats');
+		
 		parent::__construct( $id, $table, $ds );
+	}
+	
+	function paginateCount($conditions = null, $recursive = 0, $extra = array()) {
+		unset($extra['joins']);
+		unset($extra['group']);
+		return $this->find('count',array_merge(compact('conditions','recursive'),$extra));
 	}
 	
 	function afterSave(&$model, $created = false) {

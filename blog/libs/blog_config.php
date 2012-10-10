@@ -14,6 +14,7 @@ class BlogConfig extends Object {
 			)
 		),
 		'useBlogger' => false,
+		'cropFormats' => array(),
 	);
 	var $trueToDefault = array(
 		'categoryList.allCategoriesLink',

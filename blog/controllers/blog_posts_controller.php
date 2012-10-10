@@ -189,17 +189,21 @@ class BlogPostsController extends BlogAppController {
 				'BlogPost' => array()
 			)
 		));
-		$this->BlogPost->contain(array(
-				'User'=>array(
-					'BlogPost'=>array(
-						'limit'=>4,
-						'conditions'=>array('id NOT'=>$id),
-						'fields'=>array('id','title'),
-						'order'=>array('created'=>'desc')
-					)
-				),
-				'BlogCategory'
-			));
+		$contain = array(
+			'User'=>array(
+				'BlogPost'=>array(
+					'limit'=>4,
+					'conditions'=>array('id NOT'=>$id),
+					'fields'=>array('id','title'),
+					'order'=>array('created'=>'desc')
+				)
+			),
+			'BlogCategory'
+		);
+		if(in_array('Comment',App::objects('plugin'))){
+			$contain[] = 'Comment';
+		}
+		$this->BlogPost->contain($contain);
 		$this->BlogPost->recursive = 1;
 		$blogPost = $this->BlogPost->read(null, $id);
 		$this->set('blogPost', $blogPost);
@@ -266,6 +270,7 @@ class BlogPostsController extends BlogAppController {
 		
 	}
 	
+	
 	function admin_index() {
 		$q = null;
 		if(isset($this->params['named']['q']) && strlen(trim($this->params['named']['q'])) > 0) {
@@ -283,7 +288,14 @@ class BlogPostsController extends BlogAppController {
 														'BlogPost.text_fre LIKE' => '%'.$q.'%',
 														'BlogPost.text_eng LIKE' => '%'.$q.'%');
 		}
-
+		
+		if(in_array('Comment',App::objects('plugin'))){
+			$this->paginate['joins'][] = $this->BlogPost->getCommentJoin();
+			$this->paginate['group'] = 'BlogPost.id';
+			$this->paginate['fields'] = array('COUNT(Comment.id) as nb_comment','BlogPost.*');
+		}
+		
+		
 		$this->BlogPost->recursive = 0;
 		$this->paginate['order'] = 'BlogPost.created DESC';
 		$this->set('blogPosts', $this->paginate());

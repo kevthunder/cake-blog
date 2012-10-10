@@ -23,6 +23,7 @@
 				if ($i++ % 2 == 0) {
 					$class = ' class="altrow"';
 				}
+				//debug($blogPost);
 				?>
 					<tr<?php echo $class;?>>
 						<td class="id"><?php echo $blogPost['BlogPost']['id']; ?>&nbsp;</td>
@@ -30,9 +31,12 @@
 						<td class="title_eng"><?php echo $blogPost['BlogPost']['title_eng']; ?>&nbsp;</td>
 						<?php /* <td class="title_eng"><?php echo $bool[$blogPost['BlogPost']['home']]; ?>&nbsp;</td>*/ ?>
 						<td class="title_eng"><?php echo $bool[$blogPost['BlogPost']['active']]; ?>&nbsp;</td>
-						<td class="actions">
+						<td class="actions wide">
 							<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $blogPost['BlogPost']['id']), array('class' => 'edit')); ?>
 							<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $blogPost['BlogPost']['id']), array('class' => 'delete'), sprintf(__('Are you sure you want to delete # %s?', true), $blogPost['BlogPost']['id'])); ?>
+							<?php if(in_array('Comment',App::objects('plugin'))){ ?>
+							<?php echo $html->link(__('Comments', true).' ('.$blogPost[0]['nb_comment'].')', array('plugin' => 'comment', 'controller' => 'comments', 'action' => 'index', 'model'=>'BlogPost','foreign_key'=>$blogPost['BlogPost']['id'])); ?>
+							<?php }?>
 						</td>
 					</tr>
 				<?php
