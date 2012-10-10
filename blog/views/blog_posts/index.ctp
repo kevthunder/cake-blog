@@ -1,6 +1,6 @@
 <div class="blogPosts index">
 	<?php
-		echo $this->Form->create('Blog Post', array('class' => 'search', 'url' => array('action' => 'index')));
+		echo $this->Form->create('BlogPost', array('class' => 'search', 'url' => array('action' => 'index')));
 		echo $this->Form->input('q', array('class' => 'keyword', 'label' => false, 'after' => $form->submit(__('Search', true), array('div' => false))));
 		echo $this->Form->end();
 	?>	
