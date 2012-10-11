@@ -52,7 +52,7 @@ class BlogPost extends BlogAppModel {
 			$this->actsAs[] = 'Comment.Commented';
 		}
 		App::import('Lib', 'Blog.BlogConfig');
-		$multimedia['multimedia']['fields']['format'] = BlogConfig::load('cropFormats');
+		$this->multimedia['multimedia']['fields']['format'] = BlogConfig::load('cropFormats');
 		
 		parent::__construct( $id, $table, $ds );
 	}
