@@ -145,7 +145,7 @@ class BlogPostsController extends BlogAppController {
 		$this->paginate['limit'] = 10;
 		$this->BlogPost->recursive = 1;
 		$this->set('blogPosts', $this->paginate());
-		
+		$this->set('blogCategoryId', $blog_category_id);
 		$this->_boxes();
 	}
 
@@ -220,6 +220,7 @@ class BlogPostsController extends BlogAppController {
 		$this->BlogPost->User->recursive = 0;
 		$bloggers = $this->BlogPost->User->find('all',array('conditions'=>array('User.id NOT'=>$blogPost['BlogPost']['user_id'],'Aro.parent_id'=>8)));
 		$this->set('bloggers', $bloggers);
+		
 	}
 
 	function add() {
