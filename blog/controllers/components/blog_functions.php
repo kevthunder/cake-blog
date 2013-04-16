@@ -18,6 +18,7 @@ class BlogFunctionsComponent extends Object {
 		if($opt['allCategoriesLink']){
 			$chTotal = $this->BlogCategory->BlogPost->find('count');
 			$categoryList[0] = array(
+				'id' => null,
 				'title' => __($opt['allCategoriesLink']['label'], true),
 				'count' => $chTotal,
 			);
@@ -25,7 +26,7 @@ class BlogFunctionsComponent extends Object {
 		$joinModel = $this->BlogCategory->BlogCategoriesBlogPost;
 		$findOpt = array(
 			'fields'=>array(
-				$this->BlogCategory->alias.'.*',
+				$this->BlogCategory->alias.'.id',$this->BlogCategory->alias.'.title',
 				'COUNT('.$this->BlogCategory->BlogPost->alias.'.'.$this->BlogCategory->BlogPost->primaryKey.') as `count`',
 			),
 			'conditions'=>array(
@@ -60,6 +61,7 @@ class BlogFunctionsComponent extends Object {
 				$cb = $cat[0]['count'];
 				if($cb > 0 || $opt['hideEmpty'] != true){
 					$categoryList[$cat['BlogCategory']['id']] = array(
+						'id' => $cat['BlogCategory']['id'],
 						'title' => $cat['BlogCategory']['title'],
 						'count' => $cb,
 					);
@@ -103,7 +105,7 @@ class BlogFunctionsComponent extends Object {
 				$archiveList[$ym] = array(
 					'm' => date_('m', strtotime($b[0]['BlogPost']['created']), $lang),
 					'y' => date_('Y', strtotime($b[0]['BlogPost']['created']), $lang),
-					'date' => date_('Y-m-d', strtotime($b[0]['BlogPost']['created']), $lang),
+					'date' => date_('Y-m-01', strtotime($b[0]['BlogPost']['created']), $lang),
 					'cb' => $cb
 				);
 			endforeach;

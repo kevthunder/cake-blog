@@ -12,8 +12,13 @@
 			<th><?php echo $this->Paginator->sort('username');?></th>			
 			<th><?php echo $this->Paginator->sort('email');?></th>			
 			<th><?php echo $this->Paginator->sort('first_name');?></th>			
-			<th><?php echo $this->Paginator->sort('last_name');?></th>				
-			<th><?php echo $this->Paginator->sort('function_fre');?></th>		
+			<th><?php echo $this->Paginator->sort('last_name');?></th>	
+			<?php if(!empty($fields['function_fre'])){ ?>			
+				<th><?php echo $this->Paginator->sort('function_fre');?></th>	
+			<?php }?>	
+			<?php if(!empty($fields['m_photo'])){ ?>			
+				<th><?php __('Photo')?></th>	
+			<?php }?>	
 			<th class="actions"><?php __('Actions');?></th>
 		</tr>
 		<?php
@@ -31,7 +36,15 @@
 						<td class="email"><?php echo $user['User']['email']; ?>&nbsp;</td>
 						<td class="first_name"><?php echo $text->truncate($user['User']['first_name'], 150, array('exact' => false)); ?>&nbsp;</td>
 						<td class="last_name"><?php echo $text->truncate($user['User']['last_name'], 150, array('exact' => false)); ?>&nbsp;</td>
-						<td class="function_fre"><?php echo $text->truncate($user['User']['function_fre'], 150, array('exact' => false)); ?>&nbsp;</td>
+						<?php if(!empty($fields['function_fre'])){ ?>
+							<td class="function_fre"><?php echo $text->truncate($user['User']['function_fre'], 150, array('exact' => false)); ?>&nbsp;</td>
+						<?php }?>
+						<?php if(!empty($fields['m_photo'])){ ?>
+							<td class="m_photo"><?php echo $this->Multimedia->img($user['User']['m_photo'], array(
+								'size' => '80x80',
+								'method' => 'crop',
+							)); ?>&nbsp;</td>
+						<?php }?>
 						<td class="actions">
 							<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $user['User']['id']), array('class' => 'edit')); ?>
 							<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $user['User']['id']), array('class' => 'delete'), sprintf(__('Are you sure you want to delete # %s?', true), $user['User']['id'])); ?>
@@ -62,3 +75,4 @@
 		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('User', true)), array('action' => 'add')); ?></li>
 	</ul>
 </div>
+

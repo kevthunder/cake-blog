@@ -27,7 +27,7 @@
 					<div class="post_info">
 						<span class="date"><?php echo date_('j F Y',strtotime($blogPost['BlogPost']['created'])) ?></span><br />
 						<h2><a href="<?php echo $this->Html->url(array('action'=>'view',$blogPost['BlogPost']['id'])); ?>"><?php echo $blogPost['BlogPost']['title'] ?></a></h2>
-						<?php echo $blogPost['BlogPost']['short_text'] ?>
+						<?php echo !empty($blogPost['BlogPost']['short_text'])?$blogPost['BlogPost']['short_text']:$this->Text->truncate($blogPost['BlogPost']['text'],200,array('exact'=>false,'html'=>true)) ?>
 						<a class="readmore" href="<?php echo $this->Html->url(array('action'=>'view',$blogPost['BlogPost']['id'])); ?>"><?php __('Lire la suite'); ?></a>
 					</div>
 				</div>
@@ -35,6 +35,15 @@
 			}
 		?>
 	</div>
+	
+	<aside class="sidebar">
+		<?php
+			echo $this->element('categories_list',array('plugin'=>'blog'));
+		?>
+		<?php
+			echo $this->element('archives',array('plugin'=>'blog'));
+		?>
+	</aside>
 	
 	<p class="paging">
 		<?php

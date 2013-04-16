@@ -61,3 +61,10 @@ INSERT INTO `aros` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `
 INSERT INTO `acos` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `rght`) VALUES 
 (NULL, NULL, NULL, NULL, 'blog_post', NULL, NULL),
 (NULL, NULL, NULL, NULL, 'blogger_edit', NULL, NULL);
+
+INSERT INTO `aros_acos`(`aro_id`, `aco_id`, `_create`, `_read`, `_update`, `_delete`) 
+SELECT `aros`.`id`,`acos`.`id`,1,1,1,1 FROM `aros` LEFT JOIN `acos` ON `acos`.`alias` = 'blog_post' WHERE `aros`.`alias` = 'blogger';
+INSERT INTO `aros_acos`(`aro_id`, `aco_id`, `_create`, `_read`, `_update`, `_delete`) 
+SELECT `aros`.`id`,`acos`.`id`,1,1,1,1 FROM `aros` LEFT JOIN `acos` ON `acos`.`alias` = 'blog_post' WHERE `aros`.`alias` = 'administrators';
+INSERT INTO `aros_acos`(`aro_id`, `aco_id`, `_create`, `_read`, `_update`, `_delete`) 
+SELECT `aros`.`id`,`acos`.`id`,1,1,1,1 FROM `aros` LEFT JOIN `acos` ON `acos`.`alias` = 'blogger_edit' WHERE `aros`.`alias` = 'administrators';

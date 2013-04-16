@@ -1,10 +1,17 @@
+<?php
+	if(!isset($counts)){
+		$counts = true;
+	}
+?>
 <div class="blogArchives">
-	<a class="archTitle" href=""><?php __('Archives'); ?></a>
+	<h3><?php __('Archives'); ?></h3>
 	<ul>
-	<?php $curdate = strtotime("+1 months",strtotime(date("Y-m-1"))) ?>
-	<?php while($curdate>strtotime($startDate)){ ?>
-		<?php $curdate = strtotime("-1 months",$curdate) ?>
-		<li><a href="<?php echo $html->url(array('m'=>date("m",$curdate),'y'=>date("Y",$curdate))) ?>"><?php echo date_("F Y",$curdate) ?></a></li>
+	<?php foreach ($listArchives as $month) { ?>
+		<li>
+			<a href="<?php 
+				echo $this->Html->url(array('action'=>'index','m'=>$month['m'],'y'=>$month['y']))
+			?>"><?php echo ucfirst(date_($month['y']==date('Y')?'F':'F Y',strtotime($month['date']))); ?> <span class="count">(<?php echo $month['cb'] ?>)</span></a>
+		</li>
 	<?php } ?>
 	</ul>
 </div>

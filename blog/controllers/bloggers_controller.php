@@ -23,7 +23,9 @@ class BloggersController extends BlogAppController {
 				)
 			)
 		),false);
-		$this->paginate['conditions']['Aro.parent_id']=8;
+		$bloggerNode = $this->User->Aro->find('first',array('conditions'=>array('Aro.alias'=>'blogger'),'recursive'=>-1));
+		$this->paginate['conditions']['Aro.lft >']=$bloggerNode['Aro']['lft'];
+		$this->paginate['conditions']['Aro.rght <']=$bloggerNode['Aro']['rght'];
 		$this->User->recursive = 0;
 		//$this->User->paginate();
 		$this->set('users', $this->paginate());
@@ -55,9 +57,13 @@ class BloggersController extends BlogAppController {
 				)
 			)
 		),false);
-		$this->paginate['conditions']['Aro.parent_id']=8;
+		
+		$bloggerNode = $this->User->Aro->find('first',array('conditions'=>array('Aro.alias'=>'blogger'),'recursive'=>-1));
+		$this->paginate['conditions']['Aro.lft >']=$bloggerNode['Aro']['lft'];
+		$this->paginate['conditions']['Aro.rght <']=$bloggerNode['Aro']['rght'];
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
+		$this->set('fields',$this->User->schema());
 	}
 	
 	function admin_add() {
@@ -72,7 +78,7 @@ class BloggersController extends BlogAppController {
 				$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'user'));
 			}
 		}
-		
+		$this->set('fields',$this->User->schema());
 		/*
 		$this->Acl->Aro->displayField = 'alias';
 		$this->Acl->Aro->primaryKey = 'alias';

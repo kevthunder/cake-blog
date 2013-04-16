@@ -20,7 +20,7 @@ class BlogPostsController extends BlogAppController {
 		$this->set('checked_blogger',$this->checked_blogger);
 		
 		$this->allow_blogger_edit = false;
-		if(!empty($this->user['User']['id'])) {
+		if(!empty($this->user['User']['id']) && BlogConfig::load('useBlogger')) {
 			$this->allow_blogger_edit = $this->Acl->check(array('model' => 'User', 'foreign_key' => $this->user['User']['id']), 'blogger_edit');
 		}
 		//$this->allow_blogger_edit = true;
@@ -51,7 +51,14 @@ class BlogPostsController extends BlogAppController {
 			)
 		));
 		$this->BlogPost->User->recursive = 0;
-		$bloggers = $this->BlogPost->User->find('all',array('conditions'=>array('Aro.parent_id'=>8)));
+		
+		$bloggerNode = $this->BlogPost->User->Aro->find('first',array('conditions'=>array('Aro.alias'=>'blogger'),'recursive'=>-1));
+		$bloggers = $this->BlogPost->User->find('all',array(
+			'conditions'=>array(
+				'Aro.lft >'=>$bloggerNode['Aro']['lft'],
+				'Aro.rght <'=>$bloggerNode['Aro']['rght']
+			)
+		));
 		$this->set('bloggers', $bloggers);
 	}
 	
@@ -186,7 +193,10 @@ class BlogPostsController extends BlogAppController {
 		$this->BlogPost->Behaviors->attach('Containable');
 		$this->BlogPost->User->bindModel(array(
 			'hasMany' => array(
-				'BlogPost' => array()
+				'BlogPost' => array(
+					'className' => 'Blog.BlogPost',
+					'foreignKey' => 'user_id',
+				)
 			)
 		));
 		$contain = array(
@@ -217,8 +227,14 @@ class BlogPostsController extends BlogAppController {
 				)
 			)
 		));
-		$this->BlogPost->User->recursive = 0;
-		$bloggers = $this->BlogPost->User->find('all',array('conditions'=>array('User.id NOT'=>$blogPost['BlogPost']['user_id'],'Aro.parent_id'=>8)));
+		
+		$bloggerNode = $this->BlogPost->User->Aro->find('first',array('conditions'=>array('Aro.alias'=>'blogger'),'recursive'=>-1));
+		$bloggers = $this->BlogPost->User->find('all',array(
+			'conditions'=>array(
+				'Aro.lft >'=>$bloggerNode['Aro']['lft'],
+				'Aro.rght <'=>$bloggerNode['Aro']['rght']
+			)
+		));
 		$this->set('bloggers', $bloggers);
 		
 	}
@@ -325,10 +341,16 @@ class BlogPostsController extends BlogAppController {
 					)
 				)
 			));
-			$this->BlogPost->User->recursive = 0;
-			$f_users = $this->BlogPost->User->find('all',array('fields'=>array('User.id','User.first_name','User.last_name'),'conditions'=>array('Aro.parent_id'=>8)));
+				
+			$bloggerNode = $this->BlogPost->User->Aro->find('first',array('conditions'=>array('Aro.alias'=>'blogger'),'recursive'=>-1));
+			$bloggers = $this->BlogPost->User->find('all',array(
+				'conditions'=>array(
+					'Aro.lft >'=>$bloggerNode['Aro']['lft'],
+					'Aro.rght <'=>$bloggerNode['Aro']['rght']
+				)
+			));
 			$users = array();
-			foreach($f_users as $user){
+			foreach($bloggers as $user){
 				$users[$user['User']['id']] = $user['User']['first_name'].' '.$user['User']['last_name'];
 			}
 			$this->set('users', $users);
@@ -369,10 +391,15 @@ class BlogPostsController extends BlogAppController {
 					)
 				)
 			));
-			$this->BlogPost->User->recursive = 0;
-			$f_users = $this->BlogPost->User->find('all',array('fields'=>array('User.id','User.first_name','User.last_name'),'conditions'=>array('Aro.parent_id'=>8)));
+			$bloggerNode = $this->BlogPost->User->Aro->find('first',array('conditions'=>array('Aro.alias'=>'blogger'),'recursive'=>-1));
+			$bloggers = $this->BlogPost->User->find('all',array(
+				'conditions'=>array(
+					'Aro.lft >'=>$bloggerNode['Aro']['lft'],
+					'Aro.rght <'=>$bloggerNode['Aro']['rght']
+				)
+			));
 			$users = array();
-			foreach($f_users as $user){
+			foreach($bloggers as $user){
 				$users[$user['User']['id']] = $user['User']['first_name'].' '.$user['User']['last_name'];
 			}
 			$this->set('users', $users);

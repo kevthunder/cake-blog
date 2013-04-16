@@ -1,7 +1,7 @@
 <?php
 
 class BlogAppController extends AppController {
-	var $pluginVersion = "0.0.0.1";
+	var $pluginVersion = "0.1.0.0";
 }
 
 ?>

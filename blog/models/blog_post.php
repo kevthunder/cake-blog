@@ -16,11 +16,7 @@ class BlogPost extends BlogAppModel {
 		'User' => array(
 			'className'    => 'Auth.User',
 			'foreignKey'    => 'user_id'
-		)/*,
-		'Store' => array(
-			'className'    => 'Store',
-			'foreignKey'    => 'store_id'
-		)*/
+		)
 	);  
 	
 	
