@@ -2,8 +2,9 @@
 
 Pour cakePHP 1.3
 
-Simple Blog for CakePHP
+Simple Blog Plugin for CakePHP
 
 ## Installation
 
-* Put the content of this plugin in "app/plugins/" in a folder named "blog".
+1. Put the content of this plugin in "app/plugins/" in a folder named "blog".
+2. Run "database.sql" in the database.
